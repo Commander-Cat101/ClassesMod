@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net48</TargetFramework>
+        <RootNamespace>BloonsTDClasses</RootNamespace>
+        <Configurations>Debug;Release</Configurations>
+        <Nullable>enable</Nullable>
+        <AssemblyName>BloonsTDClasses</AssemblyName>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <Optimize>False</Optimize>
+        <DebugType>embedded</DebugType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <Optimize>True</Optimize>
+        <DebugType>none</DebugType>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Remove="UI\Screenshot_2022-10-15_081340-removebg-preview.png" />
+      <None Remove="UI\UIAssets\AbilityAssets\AbilityActive.png" />
+      <None Remove="UI\UIAssets\AbilityAssets\AbilityNotReady.png" />
+      <None Remove="UI\UIAssets\AbilityAssets\AbilityReady.png" />
+      <None Remove="UI\UIAssets\ClassesButton.png" />
+      <None Remove="UI\UIAssets\Commander.png" />
+      <None Remove="UI\UIAssets\Necromancer.png" />
+      <None Remove="UI\UIAssets\Pyrotechnic.png" />
+    </ItemGroup>
+
+    <Import Project="..\btd6.targets" />
+</Project>

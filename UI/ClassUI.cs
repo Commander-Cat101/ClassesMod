@@ -83,7 +83,7 @@ public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
 
         var Button2 = ClassesMenu.AddButton(new Info("Class2", -2725, 100, 125 * 3, 125 * 3, new Vector2(1, 0), new Vector2(0.5f, 0)), NecroButton.guidRef, new Action(() =>
         {
-            SetSelectedClass("Necromancer", NecroButton.guidRef, "The power of the Necromancer Class gives many abilities. One being your fellow necromancers gain the power of sacrifice and the other being the power of strength at the loss of money", "Pros" + "\n" + "- Ezili gets a 25% attack speed buff" + "\n" + "- 004 & 005 Wizard Monkeys Get Double The Space In Their Graveyard" + "\n" + "- All 'Evil' Towers get a small buff" + "\n" + "\n" + "Cons" + "\n" + "- ALL Cash Gain is cut by 15%", 125, 125, 80);
+            SetSelectedClass("Necromancer", NecroButton.guidRef, "The power of the Necromancer Class gives many abilities. One being your fellow necromancers gain the power of sacrifice and the other being the power of strength at the loss of money", "Pros" + "\n" + "- Ezili gets a 50% attack speed buff" + "\n" + "- 004 Wizard Monkey Gets Double The Space In Its Graveyard" + "\n" + "- 004 & 005 Wizard Monkeys Get Double Attack Speed" + "\n" +"- All 'Evil' Towers get a small buff" + "\n" + "\n" + "Cons" + "\n" + "- ALL Cash Gain is cut by 15%", 125, 125, 75);
 
         }));
         Button2.AddText(new Info("Text", 0, -160, 1000, 200), "Necromancer", 70f);
@@ -92,7 +92,7 @@ public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
 
         var Button3 = ClassesMenu.AddButton(new Info("Class3", -2150, 100, 125 * 3, 125 * 3, new Vector2(1, 0), new Vector2(0.5f, 0)), EconomistButton.guidRef, new Action(() =>
         {
-            SetSelectedClass("Economist", EconomistButton.guidRef, "The fiscally-responsible Economist Class makes cash generation and tax evasion insanely easy, but as a result some monkeys are less powerful", "Pros" + "\n" + "- Cash gain for all sources is increased by 20%" + "\n" + "- Gain a free banana farm every 15 rounds" + "\n" + "- Benjamin's bank hack gives an extra 10% cash gain" + "\n" + "\n" + "Cons" + "\n" + "- All Towers Lose 1 damage (1 minimim damage)" + "\n" + "- All Towers Lose 2 pierce (1 minimum pierce)" + "\n" + "- All T4 and up towers get 10% less attack speed" + "\n", 125, 125, 65);
+            SetSelectedClass("Economist", EconomistButton.guidRef, "The fiscally-responsible Economist Class makes cash generation and tax evasion insanely easy, but as a result some monkeys are less powerful", "Pros" + "\n" + "- Cash gain for all sources is increased by 20%" + "\n" + "- Gain a free banana farm every 15 rounds" + "\n" + "- Benjamin's bank hack gives an extra 10% cash gain" + "\n" + "\n" + "Cons" + "\n" + "- All Towers Lose 1 damage (1 minimum damage)" + "\n" + "- All Towers Lose 2 pierce (1 minimum pierce)" + "\n" + "- All T4 and up towers get 10% slower attack speed" + "\n", 125, 125, 65);
 
         }));
         Button3.AddText(new Info("Text", 0, -160, 1000, 200), "Economist", 70f);
@@ -101,7 +101,7 @@ public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
 
         var Button4 = ClassesMenu.AddButton(new Info("Class4", -3275, 100, 150 * 3, 125 * 3, new Vector2(1, 0), new Vector2(0.5f, 0)), CommanderButton.guidRef, new Action(() =>
         {
-            SetSelectedClass("Commander", CommanderButton.guidRef, "Awarded multiple medals in the monkey military, the commander will lead your monkey to victory with an inspiring banner. Unfortunely, bloons have gotten faster", "Pros" + "\n" + "- Flanking Tactics - Ability (20 Second Uptime, (120 + round) Second Cooldown)" + "\n" + "During Ability each tower gets" + "\n" + "- 2x Attack Speed, 4x for Bomb Shooters and Mortar Monkeys" + "\n" + "- 3x Pierce and an extra 3 damage" + "\n" + "Cons" + "\n" + "- Bloons are %30 faster", 150, 125, 70);
+            SetSelectedClass("Commander", CommanderButton.guidRef, "Awarded multiple medals in the monkey military, the commander will lead your monkey to victory with an inspiring banner. Unfortunely, bloons have gotten faster", "Pros" + "\n" + "- Flanking Tactics - Ability (20 Second Uptime, (120 + round) Second Cooldown)" + "\n" + "During Ability each tower gets" + "\n" + "- 2x Attack Speed, 4x for Bomb Shooters and Mortar Monkeys" + "\n" + "- 3x Pierce and an extra 3 damage" + "\n" + "Cons" + "\n" + "- Bloons are %30 faster", 150, 125, 75);
 
         }));
         Button4.AddText(new Info("Text", 0, -160, 1000, 200), "Commander", 70f);

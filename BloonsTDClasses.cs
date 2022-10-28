@@ -37,6 +37,9 @@ using Assets.Scripts.Utils;
 using Assets.Scripts.Simulation;
 using Assets.Scripts.Simulation.Input;
 using Assets.Scripts.Unity.Bridge;
+using Assets.Scripts.Models.Towers.Weapons;
+using Assets.Scripts.Models.SimulationBehaviors;
+using BTD_Mod_Helper.Api.Helpers;
 
 [assembly: MelonInfo(typeof(BloonsTDClass.MelonMain), ModHelperData.Name, ModHelperData.Version, ModHelperData.Author)]
 [assembly: MelonGame("Ninja Kiwi", "BloonsTD6")]
@@ -265,15 +268,21 @@ public class MelonMain : BloonsTD6Mod
         switch (towerModel.baseId)
         {
             case "WizardMonkey":
-                if (towerModel.tiers[2] == 4)
+                if (tower.towerModel.tiers[2] == 4)
                 {
                     var newEmi = new NecromancerEmissionModel("EmissionModel", 1000, 50, 1, 5, 10, 50, 5, null, null, null, 5, 100, 10, 200, 2);
-                    towerModel.behaviors.First(a => a.name.Contains("Necromancer_")).Cast<AttackModel>().weapons[0].emission = newEmi;
+                    tower.towerModel.behaviors.First(a => a.name == "AttackModel_Attack Necromancer_").Cast<AttackModel>().weapons[0].emission.Cast<NecromancerEmissionModel>().maxRbeStored = 1000;
+                    foreach (var weapon in towerModel.GetWeapons())
+                    {
+                        weapon.Rate *= .5f;
+                    }
                 }
-                if (towerModel.tiers[2] == 5)
+                if (tower.towerModel.tiers[2] == 5)
                 {
-                    var newEmi = new NecromancerEmissionModel("EmissionModel", 6000, 300, 1, 8, 15, 50, 5, null, null, null, 5, 100, 10, 400, 3);
-                    towerModel.behaviors.First(a => a.name.Contains("Necromancer_")).Cast<AttackModel>().weapons[0].emission = newEmi;
+                    foreach (var weapon in towerModel.GetWeapons())
+                    {
+                        weapon.Rate *= .5f;
+                    }
                 }
                 break;
             case "Ezili":
@@ -433,7 +442,7 @@ public class MelonMain : BloonsTD6Mod
         {
             try
             {
-                bloon.bloonModel.Speed *= 1.3f;
+                bloon.trackSpeedMultiplier = 1.3f;
             }
             catch { }
         }

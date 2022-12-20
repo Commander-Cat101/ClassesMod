@@ -1,45 +1,24 @@
 using MelonLoader;
 using BTD_Mod_Helper;
 using BloonsTDClasses;
-using BTD_Mod_Helper.Api.ModOptions;
 using Assets.Scripts.Unity.UI_New.InGame;
-using BTD_Mod_Helper.UI.BTD6;
 using BTD_Mod_Helper.Extensions;
-using UnityEngine.UI;
-using Assets.Scripts.Simulation.Towers;
 using Assets.Scripts.Models;
-using Assets.Scripts.Unity;
-using Assets.Scripts.Models.GenericBehaviors;
-using Assets.Scripts.Simulation.Towers.Emissions;
 using Assets.Scripts.Models.Towers.Behaviors.Attack;
 using Assets.Scripts.Models.Towers.Behaviors.Emissions;
-using Assets.Scripts.Models.Towers.Behaviors.Abilities.Behaviors;
-using Assets.Scripts.Models.Effects;
-using Assets.Scripts.Models.Towers.Behaviors.Abilities;
 using Assets.Scripts.Models.Towers;
-using Assets.Scripts.Unity.Towers.Mods;
-using BTD_Mod_Helper.Api;
-using ClassesMenuUI;
 using Assets.Scripts.Models.Towers.Behaviors;
 using BTD_Mod_Helper.Api.Enums;
-using Assets.Scripts.Models.Towers.Projectiles.Behaviors;
-using Assets.Scripts.Models.Bloons.Behaviors;
 using Assets.Scripts.Simulation.Objects;
-using Assets.Scripts.Unity.Towers;
 using Tower = Assets.Scripts.Simulation.Towers.Tower;
-using Assets.Scripts.Simulation.Towers.Projectiles;
-using Assets.Scripts.Models.Towers.Projectiles;
 using Assets.Scripts.Simulation.Bloons;
-using Assets.Scripts.Simulation.Towers.Weapons;
-using Assets.Scripts.Models.Towers.Pets;
-using Assets.Scripts.Models.Bloons;
 using Assets.Scripts.Utils;
-using Assets.Scripts.Simulation;
-using Assets.Scripts.Simulation.Input;
-using Assets.Scripts.Unity.Bridge;
-using Assets.Scripts.Models.Towers.Weapons;
-using Assets.Scripts.Models.SimulationBehaviors;
-using BTD_Mod_Helper.Api.Helpers;
+using System.IO;
+using BTD_Mod_Helper.Api;
+using ClassesMenuUI;
+using UnityEngine;
+using BTD_Mod_Helper.Api.Components;
+using System.Security.AccessControl;
 
 [assembly: MelonInfo(typeof(BloonsTDClass.MelonMain), ModHelperData.Name, ModHelperData.Version, ModHelperData.Author)]
 [assembly: MelonGame("Ninja Kiwi", "BloonsTD6")]
@@ -50,9 +29,93 @@ public class MelonMain : BloonsTD6Mod
 {
     public static bool bloonspeedchange = false;
     public static int freefarmcount = 0;
+    public static string filepath = MelonHandler.ModsDirectory;
+    public static string txtpath = filepath + @"\ClassesMod\ClassesData.txt";
     public override void OnApplicationStart()
     {
+
         MelonLogger.Msg("BloonsTDClasses loaded!");
+        if (!Directory.Exists(filepath + @"\ClassesMod"))
+        {
+            Directory.CreateDirectory(filepath + @"\ClassesMod");
+            MelonLogger.Msg(ConsoleColor.Green, "Created Data Folder");
+        }
+        if (!File.Exists(filepath + @"\ClassesMod\ClassesData.json"))
+        {
+            SaveInfo saveInfo = new SaveInfo
+            {
+                Class = "Default",
+                Image = VanillaSprites.PrimaryBtn2,
+                About = "The Default Class, this class has nothing special",
+                Desc = "Pros" + "\n" + "- None" + "\n" + "Cons" + "\n" + "- None",
+                DescSize = 90,
+                Width = 250,
+                Height = 250
+            };
+            MelonLogger.Msg(ConsoleColor.Green, "Created SaveData File");
+            JsonSerializer.instance.SaveToFile<SaveInfo>(saveInfo, filepath + @"\ClassesMod\ClassesData.json");
+        }
+        else
+        {
+        }
+        if (File.Exists(filepath + @"\ClassesMod\ClassesData.json"))
+        {
+            SaveInfo info = JsonSerializer.instance.LoadFromFile<SaveInfo>(filepath + @"\ClassesMod\ClassesData.json");
+            try
+            {
+                GlobalVar.About = info.About;
+                GlobalVar.Class = info.Class;
+                GlobalVar.Desc = info.Desc;
+                GlobalVar.DescSize = info.DescSize;
+                GlobalVar.Height = info.Height;
+                GlobalVar.Width = info.Width;
+                GlobalVar.Image = info.Image;
+                MelonLogger.Msg(ConsoleColor.Green, "Loaded Data From Save File");
+            }
+            catch
+            {
+                MelonLogger.Msg(ConsoleColor.Red, "Failed To Load From Save File");
+                SaveInfo saveInfo = new SaveInfo
+                {
+                    Class = "Default",
+                    Image = VanillaSprites.PrimaryBtn2,
+                    About = "The Default Class, this class has nothing special",
+                    Desc = "Pros" + "\n" + "- None" + "\n" + "Cons" + "\n" + "- None",
+                    DescSize = 90,
+                    Width = 250,
+                    Height = 250
+                };
+                File.Delete(filepath + @"\ClassesMod\ClassesData.json");
+                MelonLogger.Msg(ConsoleColor.Green, "Deleted Faulty Save File");
+
+                JsonSerializer.instance.SaveToFile<SaveInfo>(saveInfo, filepath + @"\ClassesMod\ClassesData.json");
+                MelonLogger.Msg(ConsoleColor.Green, "Created New SaveData File");
+            }
+        }
+        else
+        {
+            MelonLogger.Msg(ConsoleColor.Red, "Failed To Locate Save File");
+        }
+    }
+    public override void OnDeinitializeMelon()
+    {
+        base.OnDeinitializeMelon();
+        Save();
+    }
+    public static void Save()
+    {
+        SaveInfo info = new SaveInfo()
+        {
+            Class = GlobalVar.Class,
+            Image = GlobalVar.Image,
+            About = GlobalVar.About,
+            Desc = GlobalVar.Desc,
+            DescSize = GlobalVar.DescSize,
+            Width = GlobalVar.Width,
+            Height = GlobalVar.Height
+        };
+        JsonSerializer.instance.SaveToFile(info, "Mods/ClassesMod/ClassesData.json");
+        MelonLogger.Msg(ConsoleColor.Green, "Saved Data Successfully :)");
     }
     public override void OnMatchStart()
     {
@@ -73,11 +136,43 @@ public class MelonMain : BloonsTD6Mod
     }
     public override void OnMatchEnd()
     {
+        switch (GlobalVar.Class)
+        {
+            case "Commander":
+                if (GlobalVar.abilityactive == true)
+                {
+                    foreach (var tower in InGame.instance.bridge.GetAllTowers())
+                    {
+                        var newModel = tower.tower.rootModel.Clone().Cast<TowerModel>();
+                        if (newModel.GetWeapons() != null)
+                        {
+                            foreach (var weapon in newModel.GetWeapons())
+                            {
+                                weapon.projectile.GetDamageModel().damage -= 3;
+                                weapon.Rate *= 2f;
+                                weapon.projectile.pierce /= 3;
+                                if (newModel.baseId == "BombShooter" || newModel.baseId == "MortarMonkey")
+                                {
+                                    weapon.Rate *= 2f;
+                                }
+                            }
+                        }
+                        tower.tower.UpdateRootModel(newModel);
+                    }
+                    MelonLogger.Msg("Expired");
+                    GlobalVar.abilityactive = false;
+                }
+                break;
+        }
         InGamePanel.Hide();
         AbilityUI.Hide();
         base.OnMatchEnd();
         GlobalVar.ingame = false;
         GlobalVar.ability = false;
+    }
+    public override void OnVictory()
+    {
+        Save();
     }
     public override void OnUpdate()
     {
@@ -141,7 +236,7 @@ public class MelonMain : BloonsTD6Mod
             freefarmcount++;
             if (freefarmcount == 15)
             {
-                InGame.instance.GetTowerInventory().AddFreeTowers(TowerType.BananaFarm, 1, "", 0);
+                InGame.instance.GetTowerInventory().AddFreeTowers(TowerType.BananaFarm, 1, "", 0);//
                 freefarmcount = 0;
             }
         }
@@ -313,6 +408,22 @@ public class MelonMain : BloonsTD6Mod
                     }
                 }
                 break;
+            case "DartlingGunner":
+                if (towerModel.tiers[1] >= 3)
+                {
+                    foreach (var weapon in towerModel.GetWeapons())
+                    {
+                        weapon.Rate *= .85f;
+                    }
+                }
+                if (towerModel.tiers[0] >= 4)
+                {
+                    foreach (var weapon in towerModel.GetWeapons())
+                    {
+                        weapon.Rate *= .85f;
+                    }
+                }
+                break;
             case "SuperMonkey":
                 if (towerModel.tiers[1] >= 3)
                 {
@@ -435,6 +546,27 @@ public class MelonMain : BloonsTD6Mod
         }
         tower.UpdateRootModel(Model);
 
+    }
+    public static void TinyTower(Tower tower, TowerModel towerModel)
+    {
+        var Model = towerModel.Duplicate();
+        if (GlobalVar.Class == "Tiny")
+        {
+            var radius = Model.GetBehavior<CircleFootprintModel>().radius;
+            if (radius > 0 && radius < 7)
+            {
+
+            }
+            else if (radius < 9)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+        tower.UpdateRootModel(Model);
     }
     public override void OnBloonCreated(Bloon bloon)
     {

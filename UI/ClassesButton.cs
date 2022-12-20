@@ -54,7 +54,7 @@ public static class ClassesPanel
         animator.runtimeAnimatorController = Animations.PopupAnim;
         animator.speed = .75f;
 
-        image = panel.AddButton(new Info("ClassesMenuButton", 0, 0, 370, 370, new Vector2(1, 0), new Vector2(0.5f, 0)), Icon, new Action(openclassesmenu));
+        image = panel.AddButton(new Info("ClassesMenuButton", 0, 0, GlobalVar.Width * 1.5f, GlobalVar.Height * 1.5f, new Vector2(1, 0), new Vector2(0.5f, 0)), Icon, new Action(openclassesmenu));
         image.AddText(new Info("Text", 0, -200, 1000, 200), "Classes", 70f);
 
 

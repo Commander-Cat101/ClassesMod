@@ -25,3 +25,13 @@ class GlobalVar
     public static bool ingame = false;
     public static bool abilityshowing = false;
 }
+public class SaveInfo
+{
+    public string? Class { get; set; }
+    public string? Image { get; set; }
+    public string? About { get; set; }
+    public string? Desc { get; set; }
+    public int DescSize { get; set; }
+    public int Width { get; set; }
+    public int Height { get; set; }
+}

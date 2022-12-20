@@ -23,11 +23,38 @@
       <None Remove="UI\UIAssets\AbilityAssets\AbilityActive.png" />
       <None Remove="UI\UIAssets\AbilityAssets\AbilityNotReady.png" />
       <None Remove="UI\UIAssets\AbilityAssets\AbilityReady.png" />
+      <None Remove="UI\UIAssets\Bloontonium.png" />
       <None Remove="UI\UIAssets\ClassesButton.png" />
       <None Remove="UI\UIAssets\Commander.png" />
+      <None Remove="UI\UIAssets\ExtraClassesButton.png" />
       <None Remove="UI\UIAssets\Necromancer.png" />
       <None Remove="UI\UIAssets\Pyrotechnic.png" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="BloonsTD6 Mod Helper">
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\BloonsTD6 Modded\Mods\Btd6ModHelper.dll</HintPath>
+      </Reference>
+      <Reference Include="mscorlib">
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\BloonsTD6 Modded\MelonLoader\Managed\mscorlib.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.AnimationModule">
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\BloonsTD6 Modded\MelonLoader\Managed\UnityEngine.AnimationModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.AudioModule">
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\BloonsTD6 Modded\MelonLoader\Managed\UnityEngine.AudioModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.CoreModule">
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\BloonsTD6 Modded\MelonLoader\Managed\UnityEngine.CoreModule.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine.TextRenderingModule">
+        <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\BloonsTD6 Modded\MelonLoader\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
     <Import Project="..\btd6.targets" />
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec Command="copy &quot;$(TargetDir)$(TargetFileName)&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\BloonsTD6 Modded\Mods&quot; /y" />
+    </Target>
 </Project>

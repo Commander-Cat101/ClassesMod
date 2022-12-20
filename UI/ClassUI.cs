@@ -5,6 +5,7 @@ using BTD_Mod_Helper.Api;
 using BTD_Mod_Helper.Api.Components;
 using BTD_Mod_Helper.Extensions;
 using MelonLoader;
+
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,27 +24,35 @@ using Color = UnityEngine.Color;
 using UnityEngine.UIElements;
 using BloonsTDClass;
 using Assets.Scripts.Utils;
+using ExtraClasses;
+using BTD_Mod_Helper.UI.Menus;
+using TaskScheduler = BTD_Mod_Helper.Api.TaskScheduler;
 
 namespace ClassesMenuUI;
 public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
 {
+    public static SpriteReference ExtraClasses => ModContent.GetSpriteReference<MelonMain>("ExtraClassesButton");
     public static SpriteReference NecroButton => ModContent.GetSpriteReference<MelonMain>("Necromancer");
     public static SpriteReference PyroButton => ModContent.GetSpriteReference<MelonMain>("Pyrotechnic");
     public static SpriteReference EconomistButton => ModContent.GetSpriteReference<MelonMain>("Economist");
     public static SpriteReference CommanderButton => ModContent.GetSpriteReference<MelonMain>("Commander");
-    public static ModHelperPanel ClassesMenuPanel;
-    public static ModHelperImage image;
-    public static ModHelperImage indicator;
-    public static ModHelperImage indicator1;
-    public static ModHelperImage indicator2;
-    public static ModHelperImage indicator3;
-    public static ModHelperText selectedclassname;
-    public static ModHelperText abouttext;
 
-    public static ModHelperText desctext;
-    private static ModHelperScrollPanel ClassesList;
+    public static ModHelperPanel? ClassesMenuPanel;
+    public static ModHelperImage? image;
+    public static ModHelperImage? indicator;
+    public static ModHelperImage? indicator1;
+    public static ModHelperImage? indicator2;
+    public static ModHelperImage? indicator3;
+    public static ModHelperText? selectedclassname;
+    public static ModHelperText? abouttext;
+
+    public static ModHelperScrollPanel? scrollpanel;
+    public static ModHelperText? desctext;
+    public static ModHelperPanel? bloontonium;
+    public static ModHelperText? bloontoniumtext;
+    private static ModHelperScrollPanel? ClassesList;
     // private static ClassesMenuClasses modTemplate;
-    private static ModHelperScrollPanel modsList;
+    private static ModHelperScrollPanel? modsList;
     internal const int Padding = 50;
 
     internal const int MenuWidth = 3600;
@@ -61,6 +70,7 @@ public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
         ClassesMenuPanel = panel.AddModHelperPanel(new Info("ClassesMenu", 3600, 1900));
         CreateLeftMenu(ClassesMenuPanel);
         CreateRightMenu(ClassesMenuPanel);
+        CreateExtraButtons(ClassesMenuPanel);
         return false;
     }
     private void CreateLeftMenu(ModHelperPanel ClassesMenu)
@@ -69,9 +79,10 @@ public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
         var topRow = leftmenu.AddPanel(new Info("TopRow")
         {
             Height = 50,
-            FlexWidth = 1
+            FlexWidth = 0
         }, null, RectTransform.Axis.Horizontal, 50);
         leftmenu.AddText(new Info("Text", 0, 1150, 1000, 200), "Classes", 150f);
+        //ClassesMenu.AddImage(new Info("BloontoniumImage", -475, 750, 200, 200), ModContent.GetSpriteReference<MelonMain>("Bloontonium").guidRef);
         ClassesList = leftmenu.AddScrollPanel(new Info("ClassesListScroll", InfoPreset.Flex), RectTransform.Axis.Vertical, VanillaSprites.BlueInsertPanelRound, Padding, Padding);
         var Button1 = ClassesMenu.AddButton(new Info("Class1", -3400, 1600, 250, 250, new Vector2(1, 0), new Vector2(0.5f, 0)), VanillaSprites.PrimaryBtn2, new Action(() =>
         {
@@ -121,15 +132,15 @@ public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
             Globals.GlobalVar.DescSize = DescSize;
             GlobalVar.Width = width * 2;
             GlobalVar.Height = height * 2;
-            indicator1.gameObject.SetActive(Globals.GlobalVar.Class == "Necromancer");
-            indicator2.gameObject.SetActive(Globals.GlobalVar.Class == "Economist");
-            indicator.gameObject.SetActive(Globals.GlobalVar.Class == "Default");
-            indicator3.gameObject.SetActive(Globals.GlobalVar.Class == "Commander");
-            selectedclassname.SetText(Class);
-            image.Image.SetSprite(Image);
-            image.SetInfo(new Info("SelectedImage", 250, 800, width * 2, height * 2));
-            abouttext.SetText(About);
-            desctext.SetText(Desc);
+            indicator1?.gameObject.SetActive(Globals.GlobalVar.Class == "Necromancer");
+            indicator2?.gameObject.SetActive(Globals.GlobalVar.Class == "Economist");
+            indicator?.gameObject.SetActive(Globals.GlobalVar.Class == "Default");
+            indicator3?.gameObject.SetActive(Globals.GlobalVar.Class == "Commander");
+            selectedclassname?.SetText(Class);
+            image?.Image.SetSprite(Image);
+            image?.SetInfo(new Info("SelectedImage", 250, 800, width * 2, height * 2));
+            abouttext?.SetText(About);
+            desctext?.SetText(Desc);
             desctext.Text.fontSize = DescSize;
             ClassesPanel.image.Image.SetSprite(Image);
             ClassesPanel.image.SetInfo(new Info("ClassesMenuButton", 0, 0, width * 3, height * 3, new Vector2(1, 0), new Vector2(0.5f, 0)));
@@ -141,7 +152,7 @@ public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
         }
         catch { }
     }
-    private static void CreateRightMenu(ModHelperPanel modsMenu)
+    public static void CreateRightMenu(ModHelperPanel modsMenu)
     {
         var leftMenu = modsMenu.AddPanel(
             new Info("RightMenu", (RightMenuWidth - MenuWidth) / -2f, 0, RightMenuWidth, MenuHeight),
@@ -158,5 +169,56 @@ public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
         image = modsMenu.AddImage(new Info("SelectedImage", 250, 800, GlobalVar.Width, GlobalVar.Height), Globals.GlobalVar.Image);
         var Description = leftMenu.AddPanel(new Info("DescriptionPanel", (RightMenuWidth - (MenuWidth + 150)) / -2f, 0, LeftMenuWidth - 100, MenuHeight - 850), VanillaSprites.BlueInsertPanelRound, RectTransform.Axis.Vertical, Padding, Padding);
         desctext = Description.AddText(new Info("Text", 0, 0, LeftMenuWidth - 200, 1000), Globals.GlobalVar.Desc, Globals.GlobalVar.DescSize, TextAlignmentOptions.TopLeft);
+    }
+    private static void CreateExtraButtons(ModHelperPanel modsMenu)
+    {
+        var ExtraClassesButton = modsMenu.AddButton(new Info("ExtraClassesButton", -1950, -1000, 400, 400), ExtraClasses.guidRef, new Action(() => ExtraClassesPress()));
+        ExtraClassesButton.AddText(new Info("ExtraClassesText", 0, -200, 600, 300), "Extra Classes", 80);
+
+        scrollpanel = modsMenu.AddScrollPanel(new Info("ScrollPanel", -1950, 1000, 500, 1500), RectTransform.Axis.Vertical);
+        scrollpanel.ScrollContent.LayoutGroup.childAlignment = TextAnchor.LowerCenter;
+        scrollpanel.ScrollContent.RectTransform.pivot = new Vector2(0.5f, 0);
+        scrollpanel.AddScrollContent(CreateTemplate("Empty"));
+        scrollpanel.SetActive(false);
+
+        var animator = scrollpanel.AddComponent<Animator>();
+        animator.runtimeAnimatorController = Animations.PopupAnim;
+        animator.speed = .75f;
+
+
+    }
+    private static void ExtraClassesPress()
+    {
+        switch (scrollpanel?.isActiveAndEnabled)
+        {
+            case false:
+                ExtraClassesOpen();
+                break;
+            case true:
+                ExtraClassesClose();
+                break;
+        }
+    }
+    private static void ExtraClassesClose()
+    {
+        scrollpanel?.GetComponent<Animator>().Play("PopupSlideOut");
+        TaskScheduler.ScheduleTask(() => scrollpanel?.SetActive(false), ScheduleType.WaitForFrames, 13);
+    }
+    private static void ExtraClassesOpen()
+    {
+        scrollpanel?.SetActive(true);
+        scrollpanel?.GetComponent<Animator>().Play("PopupSlideIn");
+    }
+    public static ModHelperButton CreateTemplate(string name)
+    {
+        var classes = ModHelperButton.Create(new Info("Empty", width: 300, height: 300), VanillaSprites.WoodenRoundButton, null);
+        switch (name)
+        {
+            case "Empty":
+                classes = ModHelperButton.Create(new Info("Empty", width: 300, height: 300), VanillaSprites.WoodenRoundButton, null);
+                classes.AddText(new Info("Text", 0, -125, 500, 200), "Empty", 70);
+                break;
+        }
+        return classes;
     }
 }

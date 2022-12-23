@@ -2,7 +2,7 @@ namespace BloonsTDClasses;
 
 public static class ModHelperData
 {
-    public const string Version = "1.0.1";
+    public const string Version = "1.0.2";
     public const string Name = "BloonsTDClasses";
 
     public const string Description = "Adds a bunch of classes to BTD6";

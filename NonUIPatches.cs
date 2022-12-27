@@ -1,13 +1,8 @@
-﻿using Assets.Scripts.Simulation;
-using Assets.Scripts.Simulation.Tracking;
-using Assets.Scripts.Unity.UI_New.InGame;
-using Assets.Scripts.Utils;
+﻿
 using BTD_Mod_Helper.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Il2CppAssets.Scripts.Simulation;
+using Il2CppAssets.Scripts.Simulation.Tracking;
+using Il2CppAssets.Scripts.Unity.UI_New.InGame;
 
 [HarmonyPatch(typeof(AnalyticsTrackerSimManager), nameof(AnalyticsTrackerSimManager.OnCashEarned))]
 public class NoCash

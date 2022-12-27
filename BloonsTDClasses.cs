@@ -1,24 +1,22 @@
 using MelonLoader;
 using BTD_Mod_Helper;
 using BloonsTDClasses;
-using Assets.Scripts.Unity.UI_New.InGame;
 using BTD_Mod_Helper.Extensions;
-using Assets.Scripts.Models;
-using Assets.Scripts.Models.Towers.Behaviors.Attack;
-using Assets.Scripts.Models.Towers.Behaviors.Emissions;
-using Assets.Scripts.Models.Towers;
-using Assets.Scripts.Models.Towers.Behaviors;
-using BTD_Mod_Helper.Api.Enums;
-using Assets.Scripts.Simulation.Objects;
-using Tower = Assets.Scripts.Simulation.Towers.Tower;
-using Assets.Scripts.Simulation.Bloons;
-using Assets.Scripts.Utils;
 using System.IO;
 using BTD_Mod_Helper.Api;
-using ClassesMenuUI;
-using UnityEngine;
 using BTD_Mod_Helper.Api.Components;
-using System.Security.AccessControl;
+using BTD_Mod_Helper.Api.Enums;
+using Il2CppAssets.Scripts.Unity.UI_New.InGame;
+using Il2CppAssets.Scripts.Models.Towers;
+using Il2CppAssets.Scripts.Utils;
+using Il2CppAssets.Scripts.Simulation.Towers;
+using Il2CppAssets.Scripts.Simulation.Objects;
+using Il2CppAssets.Scripts.Models;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Emissions;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors;
+using Il2CppAssets.Scripts.Simulation.Bloons;
+using Il2CppAssets.Scripts.Unity.UI_New.InGame.TowerSelectionMenu.TowerSelectionMenuThemes;
 
 [assembly: MelonInfo(typeof(BloonsTDClass.MelonMain), ModHelperData.Name, ModHelperData.Version, ModHelperData.Author)]
 [assembly: MelonGame("Ninja Kiwi", "BloonsTD6")]
@@ -38,7 +36,7 @@ public class MelonMain : BloonsTD6Mod
         if (!Directory.Exists(filepath + @"\ClassesMod"))
         {
             Directory.CreateDirectory(filepath + @"\ClassesMod");
-            MelonLogger.Msg(ConsoleColor.Green, "Created Data Folder");
+            MelonLogger.Msg(System.ConsoleColor.Green, "Created Data Folder");
         }
         if (!File.Exists(filepath + @"\ClassesMod\ClassesData.json"))
         {
@@ -52,7 +50,7 @@ public class MelonMain : BloonsTD6Mod
                 Width = 250,
                 Height = 250
             };
-            MelonLogger.Msg(ConsoleColor.Green, "Created SaveData File");
+            MelonLogger.Msg(System.ConsoleColor.Green, "Created SaveData File");
             JsonSerializer.instance.SaveToFile<SaveInfo>(saveInfo, filepath + @"\ClassesMod\ClassesData.json");
         }
         else
@@ -70,11 +68,11 @@ public class MelonMain : BloonsTD6Mod
                 GlobalVar.Height = info.Height;
                 GlobalVar.Width = info.Width;
                 GlobalVar.Image = info.Image;
-                MelonLogger.Msg(ConsoleColor.Green, "Loaded Data From Save File");
+                MelonLogger.Msg(System.ConsoleColor.Green, "Loaded Data From Save File");
             }
             catch
             {
-                MelonLogger.Msg(ConsoleColor.Red, "Failed To Load From Save File");
+                MelonLogger.Msg(System.ConsoleColor.Red, "Failed To Load From Save File");
                 SaveInfo saveInfo = new SaveInfo
                 {
                     Class = "Default",
@@ -86,15 +84,15 @@ public class MelonMain : BloonsTD6Mod
                     Height = 250
                 };
                 File.Delete(filepath + @"\ClassesMod\ClassesData.json");
-                MelonLogger.Msg(ConsoleColor.Green, "Deleted Faulty Save File");
+                MelonLogger.Msg(System.ConsoleColor.Green, "Deleted Faulty Save File");
 
                 JsonSerializer.instance.SaveToFile<SaveInfo>(saveInfo, filepath + @"\ClassesMod\ClassesData.json");
-                MelonLogger.Msg(ConsoleColor.Green, "Created New SaveData File");
+                MelonLogger.Msg(System.ConsoleColor.Green, "Created New SaveData File");
             }
         }
         else
         {
-            MelonLogger.Msg(ConsoleColor.Red, "Failed To Locate Save File");
+            MelonLogger.Msg(System.ConsoleColor.Green, "Failed To Locate Save File");
         }
     }
     public override void OnDeinitializeMelon()
@@ -115,7 +113,7 @@ public class MelonMain : BloonsTD6Mod
             Height = GlobalVar.Height
         };
         JsonSerializer.instance.SaveToFile(info, "Mods/ClassesMod/ClassesData.json");
-        MelonLogger.Msg(ConsoleColor.Green, "Saved Data Successfully :)");
+        MelonLogger.Msg("Saved Data Successfully :)");
     }
     public override void OnMatchStart()
     {
@@ -242,102 +240,6 @@ public class MelonMain : BloonsTD6Mod
         }
         base.OnRoundEnd();
     }
-
-    /*public override void OnTowerModelChanged(Tower tower, Model newModel)
-    {
-        
-        if (GlobalVar.Class == "Necromancer")
-        {      
-            switch (tower.towerModel.baseId)
-            {
-                case "WizardMonkey":
-                    if (tower.towerModel.tiers[2] == 4)
-                    {
-                        var newEmi = new NecromancerEmissionModel("EmissionModel", 1000, 50, 1, 5, 10, 50, 5, null, null, null, 5, 100, 10, 200, 2);
-                        tower.towerModel.behaviors.First(a => a.name.Contains("Necromancer_")).Cast<AttackModel>().weapons[0].emission = newEmi;
-                    }
-                    if (tower.towerModel.tiers[2] == 5)
-                    {
-                        var newEmi = new NecromancerEmissionModel("EmissionModel", 6000, 300, 1, 8, 15, 50, 5, null, null, null, 5, 100, 10, 400, 3);
-                        tower.towerModel.behaviors.First(a => a.name.Contains("Necromancer_")).Cast<AttackModel>().weapons[0].emission = newEmi;
-                    }
-                    break;
-                case "Ezili":
-                    foreach (var weapon in tower.towerModel.GetWeapons())
-                    {
-                        weapon.Rate *= .75f;
-                    }
-                    foreach (var abilitymod in tower.towerModel.GetAbilities())
-                    {
-                        abilitymod.Cooldown *= .75f;
-                    }
-                    break;
-                case "IceMonkey":
-                    if (tower.towerModel.tiers[0] >= 3)
-                    {
-                        foreach (var weapon in tower.towerModel.GetWeapons())
-                        {
-                            weapon.Rate *= .85f;
-                        }
-                    }
-                    break;
-                case "MonkeyBuccaneer":
-                    if (tower.towerModel.tiers[1] >= 3)
-                    {
-                        foreach (var weapon in tower.towerModel.GetWeapons())
-                        {
-                            weapon.Rate *= .85f;
-                        }
-                    }
-                    break;
-                case "SuperMonkey":
-                    if (tower.towerModel.tiers[1] >= 3)
-                    {
-                        foreach (var weapon in tower.towerModel.GetWeapons())
-                        {
-                            weapon.Rate *= .85f;
-                        }
-                    }
-                    break;
-                case "NinjaMonkey":
-                    if (tower.towerModel.tiers[2] >= 3)
-                    {
-                        foreach (var weapon in tower.towerModel.GetWeapons())
-                        {
-                            weapon.Rate *= .85f;
-                        }
-                    }
-                    break;
-                case "Alchemist":
-                    if (tower.towerModel.tiers[1] >= 4)
-                    {
-                        foreach (var weapon in tower.towerModel.GetWeapons())
-                        {
-                            weapon.Rate *= .85f;
-                        }
-                    }
-                    break;
-                case "Druid":
-                    if (tower.towerModel.tiers[2] >= 2)
-                    {
-                        foreach (var weapon in tower.towerModel.GetWeapons())
-                        {
-                            weapon.Rate *= .85f;
-                        }
-                    }
-                    break;
-                case "SpikeFactory":
-                    if (tower.towerModel.tiers[0] >= 3)
-                    {
-                        foreach (var weapon in tower.towerModel.GetWeapons())
-                        {
-                            weapon.Rate *= .85f;
-                        }
-                    }
-                    break;
-            }
-        }
-    }*/
     public override void OnTowerCreated(Tower tower, Entity target, Model modelToUse)
     {
         if (GlobalVar.Class == "Necromancer")
@@ -577,6 +479,7 @@ public class MelonMain : BloonsTD6Mod
                 bloon.trackSpeedMultiplier = 1.3f;
             }
             catch { }
+            
         }
     }
 }

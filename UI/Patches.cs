@@ -1,6 +1,9 @@
-﻿using Assets.Scripts.Unity.Menu;
-using Assets.Scripts.Unity.UI_New.Main.DifficultySelect;
-using Assets.Scripts.Unity.UI_New.Main.MapSelect;
+﻿
+
+using Il2Cpp;
+using Il2CppAssets.Scripts.Unity.Menu;
+using Il2CppAssets.Scripts.Unity.UI_New.Main.DifficultySelect;
+using Il2CppAssets.Scripts.Unity.UI_New.Main.MapSelect;
 
 [HarmonyPatch(typeof(MenuManager), nameof(MenuManager.OpenMenu))]
 internal static class MenuManager_OpenMenu

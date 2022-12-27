@@ -1,32 +1,16 @@
-﻿using Assets.Scripts.Unity.Menu;
-using Assets.Scripts.Unity.UI_New;
-using Assets.Scripts.Unity.UI_New.ChallengeEditor;
+﻿
 using BTD_Mod_Helper.Api;
 using BTD_Mod_Helper.Api.Components;
 using BTD_Mod_Helper.Extensions;
-using MelonLoader;
-
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Assets.Scripts.Unity;
-using Assets.Scripts.Unity.UI_New.InGame;
-using Assets.Scripts.Unity.UI_New.Popups;
-using TMPro;
-using Object = UnityEngine.Object;
-using Assets.Scripts.Models.Profile;
 using BTD_Mod_Helper.Api.Enums;
-using Assets.Scripts.Unity.UI_New.AppleArcade;
-using System.Drawing;
-using BloonsTDClasses;
-using Color = UnityEngine.Color;
-using UnityEngine.UIElements;
 using BloonsTDClass;
-using Assets.Scripts.Utils;
-using ExtraClasses;
-using BTD_Mod_Helper.UI.Menus;
 using TaskScheduler = BTD_Mod_Helper.Api.TaskScheduler;
+using Il2CppAssets.Scripts.Unity.UI_New.ChallengeEditor;
+using Il2CppAssets.Scripts.Utils;
+using Il2CppAssets.Scripts.Unity.UI_New;
+using Il2CppAssets.Scripts.Unity.Menu;
+using Il2CppTMPro;
 
 namespace ClassesMenuUI;
 public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>

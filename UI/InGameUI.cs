@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using Assets.Scripts.Unity.Menu;
-using Assets.Scripts.Unity.UI_New;
 using BTD_Mod_Helper.Api.Components;
 using BTD_Mod_Helper.Api.Enums;
 using BTD_Mod_Helper.Api;
@@ -15,6 +12,7 @@ using BTD_Mod_Helper.UI.Menus;
 using BloonsTDClass;
 using Random = System.Random;
 using ClassesMenuUI;
+using Il2CppAssets.Scripts.Unity.UI_New;
 
 public static class InGamePanel
 {

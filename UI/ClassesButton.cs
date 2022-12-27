@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Unity.Menu;
-using Assets.Scripts.Unity.UI_New;
+﻿
 using BTD_Mod_Helper.Api.Components;
 using BTD_Mod_Helper.Api.Enums;
 using BTD_Mod_Helper.Api;
@@ -9,9 +8,10 @@ using BTD_Mod_Helper.UI.Menus;
 using BloonsTDClass;
 using Random = System.Random;
 using ClassesMenuUI;
-using Assets.Scripts.Unity.UI_New.Main;
 using MelonLoader;
 using TaskScheduler = BTD_Mod_Helper.Api.TaskScheduler;
+using Il2CppAssets.Scripts.Unity.Menu;
+using Il2CppAssets.Scripts.Unity.UI_New;
 
 public static class ClassesPanel
 {

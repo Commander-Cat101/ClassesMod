@@ -69,18 +69,15 @@ public static class ClassesPanel
         {
             matchLocalPosition.offset = new Vector3(0, 0);
             matchLocalPosition.scale = new Vector3(1, 3.33f, 1);
-            MelonLogger.Msg("1");
         }
         else if (aspectRatio < 1.7)
         {
             matchLocalPosition.offset = new Vector3(-700, 60, 0);
             matchLocalPosition.scale = new Vector3(1, 3f, 1);
-            MelonLogger.Msg("2");
         }
         else
         {
             matchLocalPosition.offset = new Vector3(-750, 70);
-            MelonLogger.Msg("3");
         }
         /*var mainMenuTransform = screen.transform.Cast<RectTransform>();
         var matchLocalPosition = image.transform.gameObject.AddComponent<MatchLocalPosition>();

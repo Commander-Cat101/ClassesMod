@@ -18,6 +18,7 @@ public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
     public static SpriteReference ExtraClasses => ModContent.GetSpriteReference<MelonMain>("ExtraClassesButton");
     public static SpriteReference NecroButton => ModContent.GetSpriteReference<MelonMain>("Necromancer");
     public static SpriteReference PyroButton => ModContent.GetSpriteReference<MelonMain>("Pyrotechnic");
+    public static SpriteReference EtherealButton => ModContent.GetSpriteReference<MelonMain>("Etherial");
     public static SpriteReference EconomistButton => ModContent.GetSpriteReference<MelonMain>("Economist");
     public static SpriteReference CommanderButton => ModContent.GetSpriteReference<MelonMain>("Commander");
 
@@ -27,6 +28,8 @@ public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
     public static ModHelperImage? indicator1;
     public static ModHelperImage? indicator2;
     public static ModHelperImage? indicator3;
+    public static ModHelperImage? indicator4;
+    public static ModHelperImage? indicator5;
     public static ModHelperText? selectedclassname;
     public static ModHelperText? abouttext;
 
@@ -96,12 +99,30 @@ public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
 
         var Button4 = ClassesMenu.AddButton(new Info("Class4", -3275, 100, 150 * 3, 125 * 3, new Vector2(1, 0), new Vector2(0.5f, 0)), CommanderButton.guidRef, new Action(() =>
         {
-            SetSelectedClass("Commander", CommanderButton.guidRef, "Awarded multiple medals in the monkey military, the commander will lead your monkey to victory with an inspiring banner. Unfortunely, bloons have gotten faster", "Pros" + "\n" + "- Flanking Tactics - Ability (20 Second Uptime, (120 + round) Second Cooldown)" + "\n" + "During Ability each tower gets" + "\n" + "- 2x Attack Speed, 4x for Bomb Shooters and Mortar Monkeys" + "\n" + "- 3x Pierce and an extra 3 damage" + "\n" + "Cons" + "\n" + "- Bloons are %30 faster", 150, 125, 75);
+            SetSelectedClass("Commander", CommanderButton.guidRef, "Awarded multiple medals in the monkey military, the commander will lead your monkey to victory with an inspiring banner. Unfortunely, bloons have gotten faster", "Pros" + "\n" + "- Flanking Tactics - Ability (20 Second Uptime, (120 + round) Second Cooldown)" + "\n" + "During Ability each tower gets" + "\n" + "- 2x Attack Speed, 4x for Bomb Shooters and Mortar Monkeys" + "\n" + "- 3x Pierce and an extra 3 damage" + "\n\n" + "Cons" + "\n" + "- Bloons are %30 faster", 150, 125, 75);
 
         }));
         Button4.AddText(new Info("Text", 0, -160, 1000, 200), "Commander", 70f);
         indicator3 = Button4.AddImage(new Info("SelectedButton", 100, 100, 150, 150), VanillaSprites.SelectedTick);
         indicator3.gameObject.SetActive(Globals.GlobalVar.Class == "Commander");
+
+        var Button5 = ClassesMenu.AddButton(new Info("Class5", -3300, 600, 125 * 3, 125 * 3, new Vector2(1, 0), new Vector2(0.5f, 0)), EtherealButton.guidRef, new Action(() =>
+        {
+            SetSelectedClass("Ethereal", EtherealButton.guidRef, "From back in the days the ghostly ethereal class turns all monkeys into spooky scary ghosts allowing towers to see through walls, but beware your hearts are even more fragile than before", "Pros" + "\n" + "- All towers can see through walls \n- Camo bloons are visable by all monkeys \n- All Towers get a small buff in attack range \n\nCons \n- Life loss from all sources are doubled\n- Losing lives makes all towers lose 5% attack speed", 125, 125, 70);
+
+        }));
+        Button5.AddText(new Info("Text", 0, -160, 1000, 200), "Ethereal", 70f);
+        indicator4 = Button5.AddImage(new Info("SelectedButton", 100, 100, 150, 150), VanillaSprites.SelectedTick);
+        indicator4.gameObject.SetActive(Globals.GlobalVar.Class == "Ethereal");
+
+        /*var Button6 = ClassesMenu.AddButton(new Info("Class6", -2725, 600, 125 * 3, 125 * 3, new Vector2(1, 0), new Vector2(0.5f, 0)), PyroButton.guidRef, new Action(() =>
+        {
+            SetSelectedClass("Pyrotechnic", PyroButton.guidRef, "The Fiery Pyrotechnic Class is ready to heat up the game. Some attacks are enhanced by fire and fire attacks are improved greatly, but your monkeys are not used to being hot and are weakened.", "Pros\n- Gwendolyn gets a %50 attack speed buff and her cocktail ability lasts longer\n- All fire based upgrades deal an extra %40 damage and get a bonus %20 attack speed\n\nCons\n- All water towers get half range (unless using fire upgrade)\n- Towers without fire upgrades get %10 less attack speed", 125, 125, 70);
+
+        }));
+        Button6.AddText(new Info("Text", 0, -160, 1000, 200), "Pyrotechnic", 70f);
+        indicator5 = Button6.AddImage(new Info("SelectedButton", 100, 100, 150, 150), VanillaSprites.SelectedTick);
+        indicator5.gameObject.SetActive(Globals.GlobalVar.Class == "Pyrotechnic");*/
 
     }
     private static void SetSelectedClass(String Class, String Image, String About, String Desc, int width, int height, int DescSize = 90)
@@ -120,6 +141,8 @@ public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
             indicator2?.gameObject.SetActive(Globals.GlobalVar.Class == "Economist");
             indicator?.gameObject.SetActive(Globals.GlobalVar.Class == "Default");
             indicator3?.gameObject.SetActive(Globals.GlobalVar.Class == "Commander");
+            indicator4?.gameObject.SetActive(Globals.GlobalVar.Class == "Ethereal");
+            //indicator5?.gameObject.SetActive(Globals.GlobalVar.Class == "Pyrotechnic");
             selectedclassname?.SetText(Class);
             image?.Image.SetSprite(Image);
             image?.SetInfo(new Info("SelectedImage", 250, 800, width * 2, height * 2));

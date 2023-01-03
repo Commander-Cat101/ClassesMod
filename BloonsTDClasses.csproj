@@ -26,6 +26,7 @@
       <None Remove="UI\UIAssets\Bloontonium.png" />
       <None Remove="UI\UIAssets\ClassesButton.png" />
       <None Remove="UI\UIAssets\Commander.png" />
+      <None Remove="UI\UIAssets\Etherial.png" />
       <None Remove="UI\UIAssets\ExtraClassesButton.png" />
       <None Remove="UI\UIAssets\Necromancer.png" />
       <None Remove="UI\UIAssets\Pyrotechnic.png" />

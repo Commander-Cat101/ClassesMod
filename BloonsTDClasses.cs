@@ -17,6 +17,8 @@ using Il2CppAssets.Scripts.Models.Towers.Behaviors.Attack;
 using Il2CppAssets.Scripts.Models.Towers.Behaviors;
 using Il2CppAssets.Scripts.Simulation.Bloons;
 using Il2CppAssets.Scripts.Unity.UI_New.InGame.TowerSelectionMenu.TowerSelectionMenuThemes;
+using Il2CppAssets.Scripts.Models.Towers.Behaviors.Abilities.Behaviors;
+using Il2CppAssets.Scripts.Models.Towers.Projectiles.Behaviors;
 
 [assembly: MelonInfo(typeof(BloonsTDClass.MelonMain), ModHelperData.Name, ModHelperData.Version, ModHelperData.Author)]
 [assembly: MelonGame("Ninja Kiwi", "BloonsTD6")]
@@ -248,6 +250,8 @@ public class MelonMain : BloonsTD6Mod
         }
         CommanderTowersAbility(tower, modelToUse.Cast<TowerModel>());
         EconomistTowers(tower, modelToUse.Cast<TowerModel>());
+        EtherealTower(tower, modelToUse.Cast<TowerModel>());
+        //PyrotechnicTower(tower, modelToUse.Cast<TowerModel>());
     }
     public override void OnTowerUpgraded(Tower tower, string upgradeName, TowerModel newBaseTowerModel)
     {
@@ -258,6 +262,8 @@ public class MelonMain : BloonsTD6Mod
         }
         CommanderTowersAbility(tower, newBaseTowerModel);
         EconomistTowers(tower, newBaseTowerModel);
+        EtherealTower(tower, newBaseTowerModel);
+        //PyrotechnicTower(tower, newBaseTowerModel);
     }
     public static void NecroTowers(Tower tower, string upgradeName = null, TowerModel newBaseTowerModel = null)
     {
@@ -480,6 +486,75 @@ public class MelonMain : BloonsTD6Mod
             }
             catch { }
             
+        }
+    }
+    public static void EtherealTower(Tower tower, TowerModel towerModel)
+    {
+        var Model = towerModel.Duplicate();
+        if (GlobalVar.Class == "Ethereal")
+        {
+            Model.AddBehavior(new OverrideCamoDetectionModel("EtherealClassCamoOverride", true));
+            foreach (var am in Model.GetAttackModels())
+            {
+                am.attackThroughWalls = true;
+                foreach (var proj in am.GetAllProjectiles())
+                {
+                    proj.ignoreBlockers = true;
+                }
+                am.range += 6;
+            }
+            Model.IncreaseRange(6);
+            Model.ignoreBlockers = true;
+        }
+        tower.UpdateRootModel(Model);
+    }
+    public static void PyrotechnicTower(Tower tower, TowerModel towerModel)
+    {
+        
+        if (GlobalVar.Class == "Pyrotechnic")
+        {
+            var Model = tower.towerModel.Duplicate();
+            switch(Model.baseId)
+            {
+                case "Gwendolin":
+                    foreach(var am in Model.GetAttackModels())
+                    {
+                        foreach(var wp in am.weapons)
+                        {
+                            wp.rate *= 0.75f;
+                        }
+                    }
+                    try
+                    {
+                        Model.GetAbility(0).GetBehavior<ActivateAttackModel>().attacks[0].weapons[0].projectile.GetBehavior<TravelStraitModel>().lifespan = 15f;
+                    }
+                    catch
+                    {
+
+                    }
+                    break;
+            }
+            tower.UpdateRootModel(Model);
+        }
+    }
+
+    public override void PostBloonLeaked(Bloon bloon)
+    {
+        if (GlobalVar.Class == "Ethereal")
+        {
+            InGame.instance.AddHealth(-bloon.GetModifiedTotalLeakDamage());
+            foreach (var tower in InGame.instance.bridge.GetAllTowers())
+            {
+                var Model = tower.tower.towerModel.Duplicate();
+                foreach(var am in Model.GetAttackModels())
+                {
+                    foreach(var wp in am.weapons)
+                    {
+                        wp.rate *= 1.05f;
+                    }
+                }
+                tower.tower.UpdateRootModel(Model);
+            }
         }
     }
 }

@@ -54,6 +54,8 @@ public static class AbilityUI
                     MelonLogger.Msg("Pressed");
                     GlobalVar.abilityactive = true;
                     break;
+                default:
+                    break;
             }
             button.Image.SetSprite(NotReadyImage);
         }

@@ -16,8 +16,9 @@ public class NoCash
             if (source != Simulation.CashSource.CoopTransferedCash || source != Simulation.CashSource.TowerSold)
             {
                 c *= .15f;
-                c = -c;
             }
+
+            InGame.instance.AddCash(-c);
         }
         if (Globals.GlobalVar.Class == "Commander")
         {
@@ -26,6 +27,8 @@ public class NoCash
                 c *= .05f;
                 c = -c;
             }
+
+            InGame.instance.AddCash(c);
         }
         if (Globals.GlobalVar.Class == "Economist")
         {
@@ -33,8 +36,9 @@ public class NoCash
             {
                 c *= .2f;  
             }
+
+            InGame.instance.AddCash(c);
         }
-        InGame.instance.AddCash(c);
         return true;
     }
 }

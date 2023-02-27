@@ -48,7 +48,7 @@ public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
     internal const int LeftMenuWidth = 1750;
     internal const int RightMenuWidth = 1750;
     public override bool OnMenuOpened(Il2CppSystem.Object data)
-    {
+    { 
         CommonForegroundScreen.instance.heading.SetActive(true);
         CommonForegroundHeader.SetText("Classes");
         var panelTransform = GameMenu.gameObject.GetComponentInChildrenByName<RectTransform>("Panel");
@@ -117,7 +117,7 @@ public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
 
         /*var Button6 = ClassesMenu.AddButton(new Info("Class6", -2725, 600, 125 * 3, 125 * 3, new Vector2(1, 0), new Vector2(0.5f, 0)), PyroButton.guidRef, new Action(() =>
         {
-            SetSelectedClass("Pyrotechnic", PyroButton.guidRef, "The Fiery Pyrotechnic Class is ready to heat up the game. Some attacks are enhanced by fire and fire attacks are improved greatly, but your monkeys are not used to being hot and are weakened.", "Pros\n- Gwendolyn gets a %50 attack speed buff and her cocktail ability lasts longer\n- All fire based upgrades deal an extra %40 damage and get a bonus %20 attack speed\n\nCons\n- All water towers get half range (unless using fire upgrade)\n- Towers without fire upgrades get %10 less attack speed", 125, 125, 70);
+            SetSelectedClass("Pyrotechnic", PyroButton.guidRef, "The Fiery Pyrotechnic Class is ready to heat up the game. Some attacks are enhanced by fire and fire attacks are improved greatly, but your monkeys are not used to being hot and are weakened.", "Pros\n- All non water towers get \n\nCons\n- All water towers get half range\n- Towers without fire upgrades get %10 less attack speed", 125, 125, 70);
 
         }));
         Button6.AddText(new Info("Text", 0, -160, 1000, 200), "Pyrotechnic", 70f);

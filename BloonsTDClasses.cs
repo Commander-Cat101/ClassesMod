@@ -503,7 +503,7 @@ public class MelonMain : BloonsTD6Mod
                 }
                 am.range += 6;
             }
-            Model.IncreaseRange(6);
+            Model.range += 6;
             Model.ignoreBlockers = true;
         }
         tower.UpdateRootModel(Model);
@@ -526,7 +526,7 @@ public class MelonMain : BloonsTD6Mod
                     }
                     try
                     {
-                        Model.GetAbility(0).GetBehavior<ActivateAttackModel>().attacks[0].weapons[0].projectile.GetBehavior<TravelStraitModel>().lifespan = 15f;
+                        Model.GetAbility(0).GetBehavior<ActivateAttackModel>().attacks[0].weapons[0].projectile.GetBehavior<CreateProjectileOnExhaustFractionModel>().projectile.GetBehavior<AgeModel>().Lifespan *= 2;
                     }
                     catch
                     {
@@ -557,4 +557,5 @@ public class MelonMain : BloonsTD6Mod
             }
         }
     }
+    
 }

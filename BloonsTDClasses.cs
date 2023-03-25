@@ -487,6 +487,15 @@ public class MelonMain : BloonsTD6Mod
             catch { }
             
         }
+        if (GlobalVar.Class == "Ethereal")
+        {
+            try
+            {
+                bloon.trackSpeedMultiplier = 1.5f;
+            }
+            catch { }
+
+        }
     }
     public static void EtherealTower(Tower tower, TowerModel towerModel)
     {

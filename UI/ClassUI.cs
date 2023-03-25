@@ -108,7 +108,7 @@ public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
 
         var Button5 = ClassesMenu.AddButton(new Info("Class5", -3300, 600, 125 * 3, 125 * 3, new Vector2(1, 0), new Vector2(0.5f, 0)), EtherealButton.guidRef, new Action(() =>
         {
-            SetSelectedClass("Ethereal", EtherealButton.guidRef, "From back in the days the ghostly ethereal class turns all monkeys into spooky scary ghosts allowing towers to see through walls, but beware your hearts are even more fragile than before", "Pros" + "\n" + "- All towers can see through walls \n- Camo bloons are visable by all monkeys \n- All Towers get a small buff in attack range \n\nCons \n- Life loss from all sources are doubled\n- Losing lives makes all towers lose 5% attack speed", 125, 125, 70);
+            SetSelectedClass("Ethereal", EtherealButton.guidRef, "From back in the days the ghostly ethereal class turns all monkeys into spooky scary ghosts allowing towers to see through walls, but beware your hearts are even more fragile than before", "Pros" + "\n" + "- All towers can see through walls \n- Camo bloons are visable by all monkeys \n- All Towers get a small buff in attack range \n\nCons \n- Life loss from all sources are doubled\n- Losing lives makes all towers lose 5% attack speed\n- All bloons are %50 faster", 125, 125, 70);
 
         }));
         Button5.AddText(new Info("Text", 0, -160, 1000, 200), "Ethereal", 70f);
@@ -223,7 +223,7 @@ public class ClassesMenu : ModGameMenu<ExtraSettingsScreen>
         {
             case "Empty":
                 classes = ModHelperButton.Create(new Info("Empty", width: 300, height: 300), VanillaSprites.WoodenRoundButton, null);
-                classes.AddText(new Info("Text", 0, -125, 500, 200), "Empty", 70);
+                classes.AddText(new Info("Text", 0, -125, 500, 200), "Empty", 120);
                 break;
         }
         return classes;

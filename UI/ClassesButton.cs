@@ -12,6 +12,8 @@ using MelonLoader;
 using TaskScheduler = BTD_Mod_Helper.Api.TaskScheduler;
 using Il2CppAssets.Scripts.Unity.Menu;
 using Il2CppAssets.Scripts.Unity.UI_New;
+using Il2CppAssets.Scripts.Simulation.Towers.Filters;
+using Il2CppAssets.Scripts.Models.Towers.Filters;
 
 public static class ClassesPanel
 {
